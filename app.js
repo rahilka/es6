@@ -1,80 +1,136 @@
-//destructuring
-var foo = {
-  bar: 1,
-  baz: 2
+"use strict";
+
+// import myModule from 'myModule';
+
+
+//block scoping
+
+var a = 1;  //let is the new var
+//
+// var test = function() {
+//   var b=1;
+// }
+// console.log(b); //is not defined
+
+if(true) {
+  let b = 2;
+  console.log(a);
+}
+
+// console.log(b); //not defined error
+
+
+const foo = 1;
+
+if(true) {
+  const bar = 4
+  // bar = 2;
+  console.log(foo);
+}
+
+// console.log(bar);
+
+//use let only if you expect the value to change at some point
+// otherwise use const
+
+const bar = { a:1 };
+console.log(bar.a);
+bar.a = 555;
+console.log(bar.a);
+
+//CLASSES:
+
+function Parent() {
+  //constructor
+}
+
+Parent.prototype.kids = function() {
+  console.log('Kids');
 };
 
-var { bar } = foo;
-//the same as:
-//var bar = foo.bar; var baz = foo.baz;
-
-console.log('bar: ', bar);
-// console.log('baz: ', baz);
+var parent = new Parent();
+console.log(parent.kids());
 
 
-var tenses = ['me', 'you', 'he'];
-var [ firstPerson, secondPerson ] = tenses;
+class Mother{
 
-console.log('firstPerson', firstPerson);
-console.log('secondPerson', secondPerson);
+  // age = 34;
 
-//promises
+  constructor() {
 
-// Promise.all([promise1, promise2]).then(function([results1, results2]) {
-//   var [ results1 ] = results;
-// });
-
-var foo = 2;
-
-var obj = {
-  bar: 1,
-  foo,  //the same as foo:2
-}
-
-console.log('obj: ', obj);
-
-
-var name= 'rahilka';
-var age = 24;
-
-// some.method({ name, age });
-
-var name = 'rahilka'
-var obj = {
-  ['name' + name]: 'some value'
-}
-console.log(obj);
-
-function calcBmi({weight: w, height: h, max = 25, callback}) {
-  var bmi = w / Math.pow(h, 2);
-  console.log(bmi);
-  if(bmi > max) {
-    console.log("You're overweight");
   }
-  if(callback) {
-    callback(bmi);
+
+  static foo() {
+      //method 1
+      console.log('Foo');
+  }
+
+  bar() {
+    // method 2
+    console.log('Bar');
   }
 }
 
-calcBmi({ w:50, h:150, max:20 });
-calcBmi({ h:150, w:150, callback: function () {
-  console.log('callback');
-}});
+var parent = new Mother();
+// parent.foo();  //not a function
+Mother.foo();
+// parent.age;
+// console.log('parent: ', parent);
+
+class Child extends Mother {
+  constructor() {
+    super()
+  }
+
+  baz() {
+    console.log('BAZZZ');
+  }
+}
+
+var child = new Child();
+child.baz();
+child.bar();
+// child.foo();  //not a function, cos foo() is static
+Child.foo();
 
 
-//template strings
+//arrow functions
 
-var name = 'Rahilka';
-var thing = 'party';
-var greet = 'Hi, my name is \n' +
-              name + ' and I like to ' + thing + '.';
-console.log('greet: ', greet);
+var arrFunc = function(a, b) {
+  return a + b;
+}
 
-//es6:
-var greet = `Hi, my name is
-${name} and
-I like to
-${thing}!!!!!!!!`
-console.log(greet);
+console.log(arrFunc(2,5));
 
-//dollar sign, $, means look for that variable and pop the variable in
+
+var arrFuncArrow = (a,b) => (a + b); // without return keyworkd only for one line functions
+
+console.log(arrFuncArrow(4,5));
+
+console.log([0,1,2].map(val => ++val));
+
+//arrow function automatically bind 'this'
+
+var module = {
+  age: 30,
+  foo: function() {
+    setTimeout(() => {
+      console.log(this.age);
+    }, 1000);
+  }
+};
+
+module.foo();
+
+
+//modules and require
+
+// import myModule from 'myModule';
+//
+// var myModule = require('myModule');
+// myModule();
+
+//generator function
+// async function() {
+//
+// }
